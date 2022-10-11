@@ -50,6 +50,15 @@
 		<name>Flow</name>
 	</types>
 	<types>
+		<members>moduleView</members>
+		<members>optionView</members>
+		<members>questionView</members>
+		<members>trailView</members>
+		<members>unitContent</members>
+		<members>unitView</members>
+		<name>LightningComponentBundle</name>
+	</types>
+	<types>
 		<members>*</members>
 		<name>LightningMessageChannel</name>
 	</types>

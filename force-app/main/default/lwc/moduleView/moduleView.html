@@ -1,0 +1,29 @@
+<template>
+    <lightning-card>
+        <template for:each={modules} for:item="module">
+            <div key = {module.Id}>
+                <lightning-card class="slds-align_absolute-center">
+                    <div class="slds-box  ">
+
+                    <h3>
+                        <lightning-badge label={module.Name}></lightning-badge>
+                        
+                    &emsp;    
+                    <lightning-icon if:true={trailCompleted} icon-name="utility:success" variant="Success" size="medium (default)"></lightning-icon>
+        
+                    </h3>
+                    <p class="slds-p-horizontal_small">{module.Description__c} </p>
+                    <p class="slds-p-horizontal_small">Module Estimated Time: {module.Estimated_Time__c} minutes</p>
+                    <p class="slds-p-horizontal_small">Total Module Score: {module.Total_Points__c}</p>
+                    <c-unit-view units ={module.Units__r} ></c-unit-view>
+                </div>&emsp;&emsp;
+                    
+                <div slot="footer">
+                    <!--<lightning-badge label="Tag1"></lightning-badge>
+                    <lightning-badge label="Tag3"></lightning-badge>-->
+                </div>
+                </lightning-card>
+            </div>
+         </template>
+        </lightning-card>  
+</template>

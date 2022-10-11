@@ -1,0 +1,25 @@
+<template>
+    <lightning-card>
+        <template for:each={units} for:item="unit">
+            <div key = {unit.Id} class="slds-box">
+                <lightning-card class="slds-align_absolute-center">
+                    <div class="slds-box  slds-theme_shade slds-size_medium">
+                        <p>{unit.Name}</p>
+                        <lightning-button label="view Unit" slot="actions" onclick={ViewUnit} data-prop={unit.Id} ></lightning-button>
+
+                      </div>
+                      
+                </lightning-card>
+                <lightning-card class="slds-align_absolute-center">
+                    <p>Unit Points:{unit.Total_Points__c}</p>
+                    <p>Unit Estimated Time: {unit.Estimated_Time__c}</p>
+                </lightning-card>
+                
+            </div>
+        </template>
+    </lightning-card>
+    
+
+
+    
+</template>

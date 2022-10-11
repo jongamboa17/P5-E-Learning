@@ -1,0 +1,31 @@
+<template>
+    <lightning-card>
+            
+            <h3 slot="title">
+                <lightning-icon icon-name="standard:knowledge" size="Medium"></lightning-icon>&nbsp;
+                {name}&emsp;
+                <!--
+                <lightning-icon if:true={trailCompleted} icon-name="utility:success" variant="Success" size="medium (default)"></lightning-icon>
+                -->
+                &emsp;
+                <lightning-badge label={points} ></lightning-badge>
+                <lightning-badge label={time} ></lightning-badge>
+            </h3>
+        
+        <h2 class="slds-p-horizontal_small slds-align_absolute-center">{description}</h2>
+        <div slot="footer">
+            <template if:false={trailCompleted}>
+                <template if:true={progressTrail}>
+                    <p>Trail Progress {progressTrail}%</p>
+                     <lightning-progress-bar value={progressTrail} size="large" variant="circular"></lightning-progress-bar>
+                </template>
+            </template>  
+            
+            <div>
+                <c-module-view name={name} time={time} points={points} description={description} modules={modules} > </c-module-view>
+            </div>                        
+        </div>
+        <p class="slds-p-horizontal_small">Trail Progress: {progress}</p>  
+    </lightning-card>
+    
+</template>
