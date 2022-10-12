@@ -42,7 +42,7 @@ export default class TrailView extends LightningElement {
             this.name = data.trail.Name;
             this.time = 'Estimated Time ' + data.trail.Estimated_Time__c + ' minutes';
             this.description = data.trail.Description__c;
-            this.points = '+ ' + data.trail.Total_Points__c + ' PTS' ;
+            this.points = data.trail.Total_Points__c;
             this.modulos= data.modules;
             //this.passmodules = data.passedModuleIds;
             this.checkunit = data.passedUnitIds;

@@ -68,7 +68,15 @@ public class UnitResponseTrigger {
             //usersMap.get(unitResp.userId__c).Total_Points__c += unitResp.Points__c;
             
             User usuario = usersMap.get(unitResp.userId__c);
-            usuario.Total_Points__c += unitResp.Points__c;
+            System.debug('USER'+usuario);
+            System.debug('USER'+usuario.Total_Points__c);
+            System.debug('unit points'+unitResp.Points__c);
+            //usuario.Total_Points__c == null ? usuario.Total_Points__c = unitResp.Points__c : usuario.Total_Points__c += unitResp.Points__c;
+            if(usuario.Total_Points__c == null) {
+                usuario.Total_Points__c = unitResp.Points__c;
+            } else {
+                usuario.Total_Points__c += unitResp.Points__c;
+            }
         }
         //no le puedo pasar el map porque no se puede hacer update de un map, entonces uso .values() que me pasa una lista con los valores del map
         update usersMap.values();
