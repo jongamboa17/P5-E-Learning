@@ -3,7 +3,7 @@
     <apiVersion>55.0</apiVersion>
     <assignments>
         <name>set_points_of_module_to_points_in_trail_module</name>
-        <label>set points of module to points in trail module</label>
+        <label>fields update from module</label>
         <locationX>176</locationX>
         <locationY>311</locationY>
         <assignmentItems>
@@ -18,6 +18,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>$Record.Module__r.Estimated_Time__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Unit_Quantity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Module__r.Unit_Quantity__c</elementReference>
             </value>
         </assignmentItems>
     </assignments>

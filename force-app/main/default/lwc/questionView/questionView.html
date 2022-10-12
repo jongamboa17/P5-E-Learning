@@ -5,12 +5,11 @@
                 {pregunta.Description__c}
             </div>
         </lightning-card>
-        
     </h1>
     <div class="slds-box">
 
         <template if:true={pregunta.Options__r} for:each={pregunta.Options__r} for:item="answer">
-            <c-option-view  key ={answer.Id}  answer={answer}></c-option-view>
+            <c-option-view  key ={answer.Id}  answer={pregunta.Id} ></c-option-view>
         </template>
     </div>
 </template>

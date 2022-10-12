@@ -1,7 +1,7 @@
-<template>
+<!--<template>
     <lightning-card>
-        <template for:each={units} for:item="unit">
-            <div key = {unit.Id} class="slds-box">
+        
+            <div class="slds-box">
                 <lightning-card class="slds-align_absolute-center">
                     <div class="slds-box  slds-theme_shade slds-size_medium">
                         <p>{unit.Name}</p>
@@ -16,10 +16,36 @@
                 </lightning-card>
                 
             </div>
-        </template>
+       
     </lightning-card>
+
     
+</template>-->
 
+<template>
 
+    <lightning-card  variant="Narrow" if:true={unit} title={unit.Name} icon-name="standard:record">  
+
+        <div class="slds-m-bottom_small slds-text-align--right">
+            <span class="tds-badge slds-badge slds-grid_vertical-align-right">+{unit.Total_Points__c} Points </span>
+        </div>
+        <div class="slds-text-align--right slds-text-title_bold">
+            ~{unit.Estimated_Time__c} minutes
+        </div>&nbsp;&emsp;
+
+        <div class="margenes">
+        <lightning-layout multiple-rows class="slds-p-right_small">
+            <p class="slds-text-heading_small" >{unit.Description__c}</p>
+        </lightning-layout>
+        </div>
+        <lightning-button label="view Units" slot="actions" onclick={ViewUnit} data-prop={unit.Id} ></lightning-button>
+        <div>
+            <div class="slds-p-left_medium slds-shrink-none slds-m-vertical_small slds-align-content-center slds-text-align_right">    
+            <lightning-card>
+            <lightning-icon if:true={Testunit} icon-name="utility:success" variant="Success" size="medium"></lightning-icon>
+        </lightning-card>
+        </div> &nbsp;&emsp;         
+        </div>
+    </lightning-card>
     
 </template>

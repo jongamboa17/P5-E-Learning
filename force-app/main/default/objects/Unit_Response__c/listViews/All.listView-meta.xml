@@ -3,6 +3,7 @@
     <fullName>All</fullName>
     <columns>NAME</columns>
     <columns>Unit__c</columns>
+    <columns>Status__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

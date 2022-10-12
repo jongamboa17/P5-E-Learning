@@ -1,11 +1,15 @@
 public class UnitService {
+    @AuraEnabled(cacheable=false)
     public static boolean createUnitResponse(Id unitId,String jsonQA ) {
+        system.debug(unitId);
+        system.debug(jsonQA);
         Savepoint sp = Database.setSavepoint();
-
         Boolean verify = false;
+        
         try{
+            system.debug('ENTRO AL TRY');
             // busco la unidad
-            Unit__c unit = [SELECT Module__c, (SELECT Id, Tries__c FROM Unit_Responses__r WHERE Module_Response__r.User__c =: UserInfo.getUserId() ORDER BY Tries__c DESC LIMIT 1 ) FROM Unit__c WHERE Id =: unitId];
+            Unit__c unit = [SELECT Module__c, Description__c, (SELECT Id, Tries__c FROM Unit_Responses__r WHERE Module_Response__r.User__c =: UserInfo.getUserId() ORDER BY Tries__c DESC LIMIT 1 ) FROM Unit__c WHERE Id =: unitId];
             
             //veo si existe un module response
             //primero lo busco en la bd
@@ -16,27 +20,26 @@ public class UnitService {
             
                 //creacion de module response
                  moduleResp = new Module_Response__c(User__c = UserInfo.getUserId(), Module__c = unit.Module__c, Status__c = 'In Progress');
+                 system.debug('ENTRO AL module resp');
                 insert moduleResp;
             }
             
-            
             //creacion de unit response
-            Unit_Response__c unitResponse = new Unit_Response__c(Unit__c = unitId, Module_Response__c = moduleResp.Id, Status__c = 'Draft');
-            
+            Unit_Response__c unitResponse = new Unit_Response__c(Unit__c = unitId, Module_Response__c = moduleResp.Id, Status__c = 'Draft', User__c = UserInfo.getUserId());
+            system.debug('ENTRO AL unit response');
             
             unitResponse.Tries__c = !unit.Unit_Responses__r.isEmpty() ? unit.Unit_Responses__r[0].Tries__c +1:1;
             insert unitResponse;
             
-            
-            
             //creo questions responses apartir del map que creo con el json
             Map<Id, Id> quesAnsMap = (Map<Id, Id>)JSON.deserializeStrict(jsonQA, Map<Id,Id>.class);
             List<Question_Response__c> questionResponseList = new List<Question_Response__c>();
-            
+            system.debug('QUESTIONS' + quesAnsMap);
             for (Id questId : quesAnsMap.keySet()) {
                 Question_Response__c questionResponse = new Question_Response__c(Question__c = questId, Unit_Response__c = unitResponse.Id, Option__c = quesAnsMap.get(questId));
                 questionResponseList.add(questionResponse);
             }
+            system.debug('QUESTIONS' + questionResponseList);
             insert questionResponseList;
             
             //actualizo el unit response para disparar el proceso de evaluacion
@@ -58,8 +61,10 @@ public class UnitService {
         public TrailWrapper getTrailWrapper(Id trailId){
             //Lista de módulos relacionados al Trail seleccionado:
             List<Module__c>modules = getModules(trailId);
+
+            //Double totalUnitsCompleted = 
             //Busco trail 
-            Trail__c trail = [SELECT Name, Description__c, Estimated_Time__c, Total_Points__c FROM Trail__c WHERE Id =: trailId];
+            Trail__c trail = [SELECT Name, Description__c, Estimated_Time__c, Total_Points__c,Unit_Quantity__c FROM Trail__c WHERE Id =: trailId];
 
             //Instancio trail wrapper con trail y modules(los modules los traigo en un metodo), tambien module ids completados, unit ids completados
             TrailWrapper trailWrap = new TrailWrapper(trail, getModules(trailId), getModuleIdsCompleted(trailId), getUnitIdsCompleted(trailId));
@@ -76,7 +81,7 @@ public class UnitService {
             for (Trail_Module__c trailModule : trailModules) {
                 moduleIds.add(trailModule.Module__c); 
             }
-             List<Module__c> modules = [SELECT Name, Description__c, Total_Points__c, Estimated_Time__c, (SELECT Name,Estimated_Time__c,Total_Points__c FROM Units__r) FROM Module__c WHERE Id in: moduleIds];
+             List<Module__c> modules = [SELECT Name, Description__c, Total_Points__c, Estimated_Time__c, (SELECT Name,Estimated_Time__c,Total_Points__c, Description__c FROM Units__r) FROM Module__c WHERE Id in: moduleIds];
              system.debug('UNITS :::: '+ modules);
             return modules;
         }
@@ -116,7 +121,7 @@ public class UnitService {
             @AuraEnabled
             public List<Id> passedUnitIds; //Ids de Unidades relacionadas a módulos del Trail actual que el Alumno ya aprobó
             @AuraEnabled
-            public Integer progressTrail; //Porcentaje de progreso del Alumno en el Trail
+            public Double progressTrail; //Porcentaje de progreso del Alumno en el Trail
 
             public TrailWrapper(Trail__c trail, List<Module__c> modules, List<Id> passedModuleIds, List<Id> passedUnitIds ){
                 this.trail = trail;
@@ -125,8 +130,8 @@ public class UnitService {
                 this.passedUnitIds = passedUnitIds;
                 this.progressTrail = passedModuleIds.size() / modules.size();
                 
-                system.debug(this.passedModuleIds.size());
-                system.debug(this.modules.size());
+                //system.debug(this.passedModuleIds.size());
+                //system.debug(this.modules.size());
             }
         }
 

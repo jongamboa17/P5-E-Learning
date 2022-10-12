@@ -1,23 +1,35 @@
 <template>
-    <lightning-card class="bear-tile" > 
-
+    <lightning-card class="bear-tile">
         <h3 slot="title">
             <lightning-icon icon-name="standard:knowledge" size="small"></lightning-icon>&nbsp;{name}&emsp;
-            <lightning-badge label={points} ></lightning-badge>
-            <lightning-badge label={time} ></lightning-badge>
         </h3>
-        <h2 class="slds-p-horizontal_small slds-align_absolute-center">{description}</h2>
-        <div slot="footer">
-        </div>
-        &emsp;
-            <div class="slds-box  slds-theme_shade slds-small">
-
-                <h1 style="" class="slds-align_absolute-center" slot="title"><strong>QUIZ</strong></h1>
+        <div class="margenes">
+            
+            <div class="slds-m-bottom_small slds-text-align--right">
+                <span class="tds-badge slds-badge slds-grid_vertical-align-right">{points} Points </span>
             </div>
-            <template for:each={preguntas} for:item="xxx">    
-               <c-question-view key ={xxx.Id} preguntas ={preguntas}    pregunta={xxx}> </c-question-view>   
-           </template>
-           
+            <div class=" slds-text-align--right slds-text-title_bold">
+                {time} minutes
+            </div>&nbsp;&nbsp;
 
-</lightning-card>
+            <div class="margenes">
+                <lightning-layout multiple-rows class="slds-p-right_small">
+                    <p class="slds-text-heading_small" >{description}</p>
+                </lightning-layout>&nbsp;&emsp;
+            </div>
+
+            <template for:each={preguntas} for:item="pregunta">
+                <div key={pregunta.Id}>
+                    <h1 slot="title">
+                    <lightning-icon icon-name="standard:knowledge" size="small"></lightning-icon>&nbsp;{pregunta.Description__c}&emsp;
+                    </h1>
+                    <template if:true={pregunta.Options__r} for:each={pregunta.Options__r} for:item="answer">
+                        <c-option-view key={answer.Id} answer={answer} question={pregunta} onoptionselect ={answerSelected} option-selected={optionSelected}  ></c-option-view>
+                 </template>
+            </div>
+                </template>
+                <lightning-button label="Submit" onclick={handleSubmit}></lightning-button>
+            </div>
+        
+    </lightning-card>
 </template>

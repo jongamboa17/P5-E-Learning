@@ -1,19 +1,15 @@
 import { LightningElement,api } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 export default class UnitView extends NavigationMixin(LightningElement) {
-    @api units;
+    //@api units;
+    @api unit
+    @api checkunit
 
-    //Accordion
-    handleSectionToggle(event) {
-        const openSections = event.detail.openSections;
+    get Testunit() {
+        return this.checkunit.includes(this.unit.Id);
 
-        if (openSections.length === 0) {
-            this.activeSectionsMessage = 'All sections are closed';
-        } else {
-            this.activeSectionsMessage =
-                'Open sections: ' + openSections.join(', ');
-        }
     }
+    
 
     ViewUnit(event) {
         console.log('entre en el boton')

@@ -4,6 +4,9 @@
     <columns>NAME</columns>
     <columns>User__c</columns>
     <columns>Module__c</columns>
+    <columns>Progress__c</columns>
+    <columns>Status__c</columns>
+    <columns>Points__c</columns>
     <filterScope>Everything</filterScope>
     <label>All</label>
 </ListView>

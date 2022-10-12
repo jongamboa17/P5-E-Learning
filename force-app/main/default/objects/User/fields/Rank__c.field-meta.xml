@@ -9,7 +9,7 @@ IF( Total_Points__c  &gt;= 9000 &amp;&amp; Total_Points__c &lt; 18000 , &quot;AD
 IF( Total_Points__c  &gt;= 18000 &amp;&amp; Total_Points__c &lt; 35000 , &quot;MOUNTAINEER&quot;,
 IF( Total_Points__c  &gt;= 35000 &amp;&amp; Total_Points__c &lt; 50000 , &quot;EXPEDITIONER&quot;,
 IF( Total_Points__c  &gt;= 50000, &quot;RANGER&quot;,
-&quot;No Rank&quot;)))))))</formula>
+&quot;&quot;)))))))</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>Rank</label>
     <required>false</required>

@@ -6,18 +6,15 @@ export default class ModuleView extends LightningElement {
     @api time;
     @api description;
     @api points;
-    @api modules;
-    trailCompleted = true;
+    @api modulo;
+    @api checkmodule;
+    @api checkunit;
+    //trailCompleted = true;
 
-    //Accordion
-    handleSectionToggle(event) {
-        const openSections = event.detail.openSections;
+    get Testmodule() {
 
-        if (openSections.length === 0) {
-            this.activeSectionsMessage = 'All sections are closed';
-        } else {
-            this.activeSectionsMessage =
-                'Open sections: ' + openSections.join(', ');
-        }
+        console.log('esto es check unit' + this.checkunit);
+        return this.checkmodule.includes(this.modulo.Id);
+
     }
 }

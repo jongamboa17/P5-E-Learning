@@ -20,6 +20,7 @@ export default class TrailView extends LightningElement {
             this.error = error;
         }
     }*/
+
     @api recordId;
     name;
     time;
@@ -27,11 +28,12 @@ export default class TrailView extends LightningElement {
     points;
     progress;
     error = undefined;
-    modules;
+    modulos;
     checkmodule;
     checkunit;
-    trailCompleted=false;
-    passmodules;
+    get progressTrail() {
+        return Math.round(this.progress);
+    }
 
     @wire(getTrails, { trailId: '$recordId' })
     trail(Result) {
@@ -40,32 +42,22 @@ export default class TrailView extends LightningElement {
             this.name = data.trail.Name;
             this.time = 'Estimated Time ' + data.trail.Estimated_Time__c + ' minutes';
             this.description = data.trail.Description__c;
-            this.points = '+' + data.trail.Total_Points__c + ' POINTS';
-            this.progress = data.progressTrail;
-            this.modules= data.modules;
-            this.passmodules = data.passedModuleIds;
+            this.points = '+ ' + data.trail.Total_Points__c + ' PTS' ;
+            this.modulos= data.modules;
+            //this.passmodules = data.passedModuleIds;
+            this.checkunit = data.passedUnitIds;
+            this.progress = (data.passedUnitIds.length/data.trail.Unit_Quantity__c)*100;
+            console.log(this.progress+ 'PROGRESSSSS');
+            //this.progress = Math.round((data.passedUnitIds.length/this.modulos.length));
+            //this.progress = data.progressTrail;
+            this.checkmodule = data.passedModuleIds;
             
-            //this.checkmodule= data.
-            //console.log('UNITSSSSS: ' + data.modules[0].Units__r[0]);
-            //console.log(data.modules.unidades.Name + 'HOLA');
-            console.log('PROGRESS: '+ this.progress);
-            
-
         } else if (error) {
             this.trailWrapper = undefined;
             this.error = error;
         }
-    }   
+    }  
 
-    //Accordion
-    handleSectionToggle(event) {
-        const openSections = event.detail.openSections;
 
-        if (openSections.length === 0) {
-            this.activeSectionsMessage = 'All sections are closed';
-        } else {
-            this.activeSectionsMessage =
-                'Open sections: ' + openSections.join(', ');
-        }
-    }
+   
 }

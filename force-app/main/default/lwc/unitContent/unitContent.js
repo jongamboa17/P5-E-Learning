@@ -1,11 +1,11 @@
-import { LightningElement, wire, api } from 'lwc';
+import { LightningElement, wire, api,track } from 'lwc';
 import { MessageContext, subcribe, publish, subscribe } from 'lightning/messageService';
 import getUnit from '@salesforce/apex/UnitService.getUnit';
+import createUnitResponse from '@salesforce/apex/UnitService.createUnitResponse';
 import proyectoELearning from '@salesforce/messageChannel/proyectoELearning__c';
 import {refreshApex} from '@salesforce/apex';
 export default class UnitContent extends LightningElement {
     @api recordId;
-
     unit;
     questionList;
     _wireResult;
@@ -49,12 +49,6 @@ export default class UnitContent extends LightningElement {
             //this.time = this.unit.Estimated_Time__c;
             this.description = this.unit.Description__c;
             this.preguntas = data.questions;
-            console.log(this.preguntas)
-
-            
-
-
-
             //publish(this.messageContext, proyectoELearning, { QuestionList: this.QuestionList });
 
         } else if (error) {
@@ -63,4 +57,28 @@ export default class UnitContent extends LightningElement {
         }
 
     }
+
+    @track
+    optionSelected = [];
+    optionSelectedjson = {};
+    answerSelected(event) {
+
+        console.log(JSON.stringify(event.detail) + 'detail event');
+        this.optionSelectedjson[event.detail.questionId] = event.detail.optionId;
+        console.log('objeto' + JSON.stringify(this.optionSelectedjson));
+        this.optionSelected = Object.values(this.optionSelectedjson);
+        console.log('arraypadre' + this.optionSelected);
+    }
+
+
+
+    handleSubmit(event) {
+        createUnitResponse({
+                unitId: this.recordId,
+                jsonQA: JSON.stringify(this.optionSelectedjson)
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+         }
 }
