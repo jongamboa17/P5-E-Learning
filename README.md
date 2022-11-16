@@ -1,6 +1,6 @@
 P5 E-Learning
 
-Desarrollo de plataforma E-Learning, el proyecto consistía en crear un sistema de aprendizaje online sobre contenido de salesforce. El sistema consistía de trails, módulos y unidades, cada unidad tenía un quiz de selección múltiple para evaluar el conocimiento adquirido.
+Desarrollo de plataforma  de aprendizaje online sobre contenido de salesforce. El sistema consistía de trails, módulos y unidades, cada unidad tenía un quiz de selección múltiple para evaluar el conocimiento adquirido.
 
 Herramientas usadas:
 •	Desarrollo programático: Triggers, classes, lightning web components
